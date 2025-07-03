@@ -58,34 +58,38 @@ Specifies that the pipeline can run on any available agent (an agent can either 
 **Stages:**
 
 
-Copy
+```
 stages {"\n      // Stages go here\n   "}
+```
 Defines the various stages of the pipeline, each representing a phase in the software delivery process.
 
 Stage 1: Connect To Github:
 
 
-Copy
+```
 stage('Connect To Github') {"\n      steps {\n         checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/RidwanAz/jenkins-scm.git']])\n      "}
 }
+```
 This stage checks out the source code from a GitHub repository (https://github.com/RidwanAz/jenkins-scm.git).
 It specifies that the pipeline should use the 'main' branch.
 Stage 2: Build Docker Image:
 
 
-Copy
+```
 stage('Build Docker Image') {"\n      steps {\n         script {\n            sh 'docker build -t dockerfile .'\n         "}
    }
 }
+```
 This stage builds a Docker image named 'dockerfile' using the source code obtained from the GitHub repository.
 The docker build command is executed using the shell (sh).
 Stage 3: Run Docker Container:
 
 
-Copy
+```
 stage('Run Docker Container') {"\n      steps {\n         script {\n            sh 'docker run -itd --name nginx -p 8081:80 dockerfile'\n         "}
    }
 }
+```
 This stage runs a Docker container named 'nginx' in detached mode (-itd).
 The container is mapped to port 8081 on the host machine (-p 8081:80).
 The Docker image used is the one built in the previous stage ('dockerfile').
